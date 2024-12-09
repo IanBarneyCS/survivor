@@ -1,0 +1,26 @@
+{
+  "name": "survivor",
+  "version": "1.0.0",
+  "description": "discord bot to play survivor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IanBarneyCS/survivor.git"
+  },
+  "author": "Ian Barney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IanBarneyCS/survivor/issues"
+  },
+  "homepage": "https://github.com/IanBarneyCS/survivor#readme",
+  "dependencies": {
+    "discord.js": "^14.16.3"
+  },
+  "devDependencies": {
+    "eslint": "^9.16.0"
+  }
+}
