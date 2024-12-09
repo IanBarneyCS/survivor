@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder} = require('discord.js');
 const { gameStates, getGameState, getGames, addGame } = require('../../gameState.js');
 
 module.exports = {
@@ -13,8 +13,17 @@ module.exports = {
             await interaction.reply('Start a game first.');
             return;
         }
+        const readyButton = new ButtonBuilder()
+            .setCustomId('ready_button')
+            .setLabel('Ready')
+            .setStyle(ButtonStyle.Success);
+        const actionRow = new ActionRowBuilder().addComponents(readyButton);
+
         addGame(interaction.options.getString('game'));
-        await interaction.reply(`Adding ${interaction.options.getString('game')} to the list of games.
-        The current list of games is: ${getGames()}`);
+        await interaction.reply({
+            content: `Adding ${interaction.options.getString('game')} to the list of games.
+        The current list of games is: ${getGames()}`,
+            components: [actionRow]
+        });
     },
 };

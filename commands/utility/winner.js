@@ -22,7 +22,7 @@ module.exports = {
         const buttons = tribe.players.map(player =>
             new ButtonBuilder()
                 .setCustomId(`vote_${player.id}`)
-                .setLabel(`Vote for ${player.playerName}`)
+                .setLabel(`${player.playerName}`)
                 .setStyle(ButtonStyle.Primary)
         );
 

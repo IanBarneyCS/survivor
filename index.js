@@ -31,8 +31,18 @@ for (const folder of commandFolders) {
 
 client.on(Events.InteractionCreate, async interaction => {
     if (interaction.isButton()) {
-        const voteHandler = require('./commands/utility/voteHandler');
-        await voteHandler.execute(interaction);
+        if (interaction.customId === 'join_button') {
+            const joinHandler = require('./commands/utility/joinHandler');
+            await joinHandler.execute(interaction);
+        } else if (interaction.customId === 'ready_button') {
+            const readyHandler = require('./commands/utility/readyHandler');
+            await readyHandler.execute(interaction);
+        } else if (interaction.customId.startsWith('vote_')) {
+            await voteHandler.execute(interaction);
+        } else if (interaction.customId === 'tribe2_winner' || interaction.customId === 'tribe1_winner') {
+            const winnerHandler = require('./commands/utility/winnerHandler');
+            await winnerHandler.execute(interaction);
+        }
     }
     if (!interaction.isChatInputCommand()) return;
 

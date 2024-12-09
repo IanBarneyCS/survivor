@@ -1,17 +1,32 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { gameStates, getGameState, setGameState } = require('../../gameState.js');
+const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
+const { gameStates, setGameState, getGameState } = require('../../gameState.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('start')
-        .setDescription('starts a game of survivor'),
+        .setDescription('Starts the game and sends join and ready buttons to the channel.'),
     async execute(interaction) {
-        if(getGameState() !== gameStates.starting) {
-            await interaction.reply('A game is already in progress.');
+        if (getGameState() !== gameStates.starting) {
+            await interaction.reply('A game is already in progress or you have not started a game yet.');
             return;
         }
+
         setGameState(gameStates.waitingForJoiners);
-        await interaction.reply('Welcome to Survivor! Everyone who would like to play, please type /join.' +
-            ' Once everyone has joined, type /ready to begin the game.');
+
+        const joinButton = new ButtonBuilder()
+            .setCustomId('join_button')
+            .setLabel('Join the Game')
+            .setStyle(ButtonStyle.Primary);
+
+        const readyButton = new ButtonBuilder()
+            .setCustomId('ready_button')
+            .setLabel('Ready')
+            .setStyle(ButtonStyle.Success);
+        const actionRow = new ActionRowBuilder().addComponents(joinButton, readyButton);
+
+        await interaction.reply({
+            content: 'The game is starting! Click the buttons to join the game, mark yourself as ready, or add a game.',
+            components: [actionRow]
+        });
     },
 };
