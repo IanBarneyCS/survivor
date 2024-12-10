@@ -5,8 +5,22 @@ const gameStates = {
   playing: 'playing',
   tribal: 'tribal'
 };
+let channelId = '';
 let gameState = gameStates.starting;
-let players = [];
+let players = [
+    {id:'1', playerName: 'jim'},
+  {id:'2', playerName: 'jane'},
+  {id:'3', playerName: 'joe'},
+  {id:'4', playerName: 'jill'},
+  {id:'5', playerName: 'jack'},
+  {id:'6', playerName: 'jenny'},
+  {id:'7', playerName: 'jacob'},
+  {id:'8', playerName: 'jessica'},
+  {id:'9', playerName: 'jason'},
+  {id:'10', playerName: 'julie'},
+  {id:'11', playerName: 'josh'},
+  {id:'12', playerName: 'julian'},
+];
 let games = [];
 let currentGame = '';
 let losingTribe = '';
@@ -33,7 +47,12 @@ function getTribes() {
 function setCurrentGame(game) {
   currentGame = game;
 }
-
+function setChannelId(id) {
+    channelId = id;
+}
+function getChannelId() {
+    return channelId;
+}
 function getCurrentGame() {
   return currentGame;
 }
@@ -99,4 +118,4 @@ function getJury() {
     return jury;
 }
 
-export {getPlayerTribe, getLosingTribe, setLosingTribe, getGameState, getPlayerNames, getAllNames, gameStates, setGameState, addPlayer, addGame, getPlayers, getGames, getCurrentGame, setCurrentGame, setTribePlayers, getTribes, setTribes, setPlayers, getJury, setJury };
+export {getChannelId, setChannelId, getPlayerTribe, getLosingTribe, setLosingTribe, getGameState, getPlayerNames, getAllNames, gameStates, setGameState, addPlayer, addGame, getPlayers, getGames, getCurrentGame, setCurrentGame, setTribePlayers, getTribes, setTribes, setPlayers, getJury, setJury };

@@ -1,25 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { gameStates, getGameState, setGameState, getGames, setCurrentGame, getCurrentGame, setTribePlayers } = require('../../gameState.js');
 const {getPlayers, getTribes, getPlayerNames} = require("../../gameState");
-
-function getRandomItem(arr) {
-    // Get a random index value
-    const randomIndex = Math.floor(Math.random() * arr.length);
-    // Get the random item
-    const item = arr[randomIndex];
-    return item;
-}
-
-function splitPlayersRandomly(arr) {
-    // Shuffle the array
-    const shuffled = arr.sort(() => 0.5 - Math.random());
-    // Calculate the middle index
-    const middleIndex = Math.ceil(shuffled.length / 2);
-    // Split the array into two parts
-    const firstHalf = shuffled.slice(0, middleIndex);
-    const secondHalf = shuffled.slice(middleIndex);
-    setTribePlayers(firstHalf, secondHalf);
-}
+const {splitPlayersRandomly, getRandomItem} = require("../../utility");
 
 module.exports = {
     data: new SlashCommandBuilder()

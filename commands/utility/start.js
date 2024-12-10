@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
-const { gameStates, setGameState, getGameState } = require('../../gameState.js');
+const { gameStates, setGameState, getGameState, setChannelId } = require('../../gameState.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,7 +12,7 @@ module.exports = {
         }
 
         setGameState(gameStates.waitingForJoiners);
-
+        setChannelId(interaction.channelId);
         const joinButton = new ButtonBuilder()
             .setCustomId('join_button')
             .setLabel('Join the Game')
