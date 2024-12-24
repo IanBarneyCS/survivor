@@ -39,7 +39,7 @@ client.on(Events.InteractionCreate, async interaction => {
             await readyHandler.execute(interaction);
         } else if (interaction.customId.startsWith('vote_')) {
             await voteHandler.execute(interaction);
-        } else if (interaction.customId === 'tribe2_winner' || interaction.customId === 'tribe1_winner') {
+        } else if (interaction.customId.startsWith('tribe')) {
             const winnerHandler = require('./commands/utility/winnerHandler');
             await winnerHandler.execute(interaction);
         }

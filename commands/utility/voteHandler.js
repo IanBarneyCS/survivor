@@ -1,6 +1,7 @@
 const { ButtonInteraction } = require('discord.js');
 const { getChannelId, getLosingTribe, setGameState, gameStates,getTribes, setTribes, getPlayers, setPlayers, getJury, setJury } = require("../../gameState");
 const {generateChallengeMessage} = require("../../utility");
+const { mergeNumber, jurySize} = require("../../constants");
 
 let votes = [];
 
@@ -8,24 +9,27 @@ async function removePlayerAndAddToJury(playerId, interaction, gameChannel) {
     let tribes = getTribes();
     let players = getPlayers();
     let jury = getJury();
-
-    // Remove player from tribes
-    tribes = tribes.map(tribe => {
-        tribe.players = tribe.players.filter(player => player.id !== playerId);
-        return tribe;
-    });
-
-    // Remove player from players array
-    players = players.filter(player => player.id !== playerId);
-    setPlayers(players);
+    if(tribes.length>1) {
+        // Remove player from tribes
+        tribes = tribes.map(tribe => {
+            tribe.players = tribe.players.filter(player => player.id !== playerId);
+            return tribe;
+        });
+    }
 
     // Add player to jury if jury size is less than 10
-    if (jury.length < 10) {
+    console.log(`jury size: ${jury.length} jurySize: ${jurySize} players length: ${players.length} mergeNumber: ${mergeNumber}`);
+    if (jury.length < jurySize && players.length < mergeNumber) {
+        console.log(`adding player to jury playerId: ${playerId}`);
         const player = players.find(player => player.id === playerId);
         if (player) {
             jury.push(player);
         }
     }
+
+    // Remove player from players array
+    players = players.filter(player => player.id !== playerId);
+    setPlayers(players);
 
     // Update the state
     setTribes(tribes);
@@ -73,6 +77,11 @@ async function tallyVotes(interaction) {
     const votedOutPlayer = tribe.players.find(p => p.id === votedOutId);
     const gameChannel = await interaction.client.channels.fetch(getChannelId());
 
+    if(getPlayers().length<=3) {
+        await gameChannel.send(`${votedOutPlayer.playerName} has won!`);
+        setGameState(gameStates.starting);
+        return;
+    }
     await removePlayerAndAddToJury(votedOutId, interaction,gameChannel);
 
     // Announce the result

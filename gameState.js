@@ -3,7 +3,8 @@ const gameStates = {
   waitingForJoiners: 'waitingForJoiners',
   askingForGames: 'askingForGames',
   playing: 'playing',
-  tribal: 'tribal'
+  tribal: 'tribal',
+  final3: 'final3',
 };
 let channelId = '';
 let gameState = gameStates.starting;
